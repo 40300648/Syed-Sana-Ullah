@@ -28,6 +28,7 @@ plt.grid()
 plt.show()
 
 //////////////////////////////////////
+
 from scipy.integrate import solve_ivp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -52,6 +53,34 @@ y = solution.y[1]
 plt.plot(t, y)
 plt.xlabel('Time')
 plt.ylabel('y coordinate')
+plt.grid()
+plt.show()
+
+/////////////////////////////////////////
+
+from scipy.integrate import solve_ivp
+import numpy as np
+import matplotlib.pyplot as plt
+v = 5
+L = 2.3
+u = 0.1   # (CCW)
+
+def system_dynamics(t, z):
+    theta = z[2]
+    return [v * np.cos(theta),
+            v * np.sin(theta),
+            v * np.tan(u) / L]
+
+t_final = 3
+z_initial = [5, 1, -0.2]
+solution = solve_ivp(system_dynamics,
+                     [0, t_final],
+                     z_initial)
+t = solution.t
+theta = solution.y[2]
+plt.plot(t, theta)
+plt.xlabel('Time')
+plt.ylabel('x coordinate')
 plt.grid()
 plt.show()
 
