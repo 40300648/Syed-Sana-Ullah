@@ -1,0 +1,131 @@
+#Task 01
+#x(t) vs time
+
+from scipy.integrate import solve_ivp
+import numpy as np
+import matplotlib.pyplot as plt
+v = 5
+L = 2.3
+u = -2   # (CW for steering angle)
+
+def system_dynamics(t, z):
+    theta = z[2]
+    return [v * np.cos(theta),
+            v * np.sin(theta),
+            v * np.tan(u) / L]
+
+t_final = 2
+z_initial = [0, 30, 5]
+solution = solve_ivp(system_dynamics,
+                     [0, t_final],
+                     z_initial,
+                     t_eval=np.linspace(0, t_final, 250))
+t = solution.t
+x = solution.y[0]
+plt.plot(t, x)
+plt.xlabel('Time')
+plt.ylabel('x coordinate')
+plt.grid()
+plt.show()
+
+
+
+
+#y(t) vs time
+
+from scipy.integrate import solve_ivp
+import numpy as np
+import matplotlib.pyplot as plt
+v = 5
+L = 2.3
+u = -2   # (CW for steering angle)
+
+def system_dynamics(t, z):
+    theta = z[2]
+    return [v * np.cos(theta),
+            v * np.sin(theta),
+            v * np.tan(u) / L]
+
+t_final = 2
+z_initial = [0, 30, 5]
+solution = solve_ivp(system_dynamics,
+                     [0, t_final],
+                     z_initial,
+                     t_eval=np.linspace(0, t_final, 250))
+t = solution.t
+y = solution.y[1]
+plt.plot(t, y)
+plt.xlabel('Time')
+plt.ylabel('y coordinate')
+plt.grid()
+plt.show()
+
+
+
+
+#theta(t) vs time
+
+from scipy.integrate import solve_ivp
+import numpy as np
+import matplotlib.pyplot as plt
+v = 5
+L = 2.3
+u = -2   # (CW for steering angle)
+
+def system_dynamics(t, z):
+    theta = z[2]
+    return [v * np.cos(theta),
+            v * np.sin(theta),
+            v * np.tan(u) / L]
+
+t_final = 2
+z_initial = [0, 30, 5]
+solution = solve_ivp(system_dynamics,
+                     [0, t_final],
+                     z_initial,
+                     t_eval=np.linspace(0, t_final, 250))
+t = solution.t
+theta = solution.y[-1]
+plt.plot(t, theta)
+plt.xlabel('Time')
+plt.ylabel('theta coordinate')
+plt.grid()
+plt.show()
+
+
+
+
+
+#Task 02
+#Trajectory in x-y plane
+
+from scipy.integrate import solve_ivp
+import numpy as np
+import matplotlib.pyplot as plt
+v = 5
+L = 2.3
+u = -2   # (CW for steering angle)
+
+def system_dynamics(t, z):
+    theta = z[2]
+    return [v * np.cos(theta),
+            v * np.sin(theta),
+            v * np.tan(u) / L]
+
+t_final = 2
+z_initial = [0, 30, 5]
+solution = solve_ivp(system_dynamics,
+                     [0, t_final],
+                     z_initial,
+                     t_eval=np.linspace(0, t_final, 250))
+t = solution.t
+x = solution.y[0]
+y = solution.y[1]
+theta = solution.y[-1]
+plt.plot(t, x)
+plt.plot(t, y)
+plt.plot(t, theta)
+plt.xlabel('x axis')
+plt.ylabel('y axis')
+plt.grid()
+plt.show()
