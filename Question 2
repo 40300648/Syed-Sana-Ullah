@@ -1,0 +1,66 @@
+from scipy.integrate import solve_ivp
+import numpy as np
+import matplotlib.pyplot as plt
+
+#make a class
+class Car:
+    # function initialization
+    def __init__(self, length=2.3, velocity=5, x=0, y=0, theta=0):
+        self.length = length
+        self.velocity = velocity
+        self.x = x
+        self.y = y
+        self.theta = theta
+
+    # another fuction
+    def move(self, steering_angle, dt):
+        z_initial = [self.x, self.y, self.theta]
+        def system_dynamics(t, z):
+            # '2' is acting as an index
+            theta = z[2]
+            return [self.velocity * np.cos(theta),
+                    self.velocity * np.sin(theta),
+                    self.velocity * np.tan(steering_angle) / self.length]
+        solution = solve_ivp(system_dynamics,
+                             [0, dt],
+                             z_initial)
+        self.x = solution.y[0][-1]
+        self.y = solution.y[1][-1]
+        self.theta = solution.y[2][-1]
+
+ #make another class
+class PIDController:
+    # initialization
+    def __init__(self, kp, ki, kd, ts):
+        self.kp = kp
+        self.ki = ki * ts
+        self.kd = kd / ts
+        self.ts = ts
+        self.previous_error = None
+        # function
+    def control(self, y, set_point=0):
+        error = set_point - y
+        kp = self.kp
+        u = kp * error  # P component (mode)
+        # D component (mode)
+        if self.previous_error is not None:
+            kd = self.kd
+            error_difference = error - self.previous_error
+            u += kd * error_difference
+        self.previous_error = error
+        return u
+
+dt = 0.01
+murphy = Car(length=2.3, y=0.3)
+p_controller = PIDController(kp=0.7, ki=0, kd=0.3, ts=dt)
+# Simulate the car
+y_cache = [murphy.y]
+t_cache = [0]
+for idx_t in range(1000):
+    u = p_controller.control(y=murphy.y)
+    murphy.move(u, dt)
+    y_cache += [murphy.y]
+    t_cache += [(idx_t+1)*dt]
+plt.plot(t_cache, y_cache)
+plt.grid()
+plt.show()
